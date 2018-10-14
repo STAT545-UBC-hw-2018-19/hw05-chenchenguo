@@ -3,6 +3,7 @@ title: "Hw-05-ChenchenGuo"
 author: "guochenchen"
 date: "October 14, 2018"
 output: github_document
+always_allow_html: yes
 ---
 
 
