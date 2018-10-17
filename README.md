@@ -16,4 +16,6 @@ Readme file of Homework 5 | \[[Readme](https://github.com/STAT545-UBC-students/h
 Rmarkdown source code | \[[Rmd](https://github.com/STAT545-UBC-students/hw05-chenchenguo/blob/master/Hw_Chenchen%20Guo.Rmd)\]
 Markdown document | \[[md](https://github.com/STAT545-UBC-students/hw05-chenchenguo/blob/master/Hw_Chenchen_Guo.md)\]
 
-
+One problem is the ploy_ly() and ggplotly() function can not be fully displayed in markdown file. 
+You can check them in .Rmd file.
+Thank you
