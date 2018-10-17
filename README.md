@@ -12,7 +12,7 @@ Specifically:
 
 Content | Link
 --------|---------
-Readme file of Homework 5 | \[[Readme](https://github.com/STAT545-UBC-students/hw05-chenchenguo/edit/master/README.md)\]
+Readme file of Homework 5 | \[[Readme](https://github.com/STAT545-UBC-students/hw05-chenchenguo/blob/master/README.md)\]
 Rmarkdown source code | \[[Rmd](https://github.com/STAT545-UBC-students/hw05-chenchenguo/blob/master/Hw_Chenchen%20Guo.Rmd)\]
 Markdown document | \[[md](https://github.com/STAT545-UBC-students/hw05-chenchenguo/blob/master/Hw_Chenchen_Guo.md)\]
 
