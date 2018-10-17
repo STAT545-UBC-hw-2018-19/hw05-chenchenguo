@@ -75,6 +75,7 @@ suppressPackageStartupMessages(library(knitr))
 suppressPackageStartupMessages(library(kableExtra))
 suppressPackageStartupMessages(library(plotly))
 suppressPackageStartupMessages(library(reshape2))
+suppressPackageStartupMessages(library(scales))
 ```
 1. List the gapminder continent information before drop oceania
 
@@ -185,8 +186,53 @@ Implementation2
 --------------
 ```{r}
 
+# Firstly, use the write_csv() and read_csv() function
+write.csv(arr_life, "Life_arrange.csv", append = FALSE, col.names = TRUE)
+#Then to read from this csv file
+
+a <- read.csv("Life_arrange.csv")
+# To visualize csv file
+knitr::kable(a) %>% 
+  kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
+
+#the str() function indicates the difference between original data frame and after writing into csv
+# After writing into .csv file , there is one extra sequence column 
+str(arr_life)
+str(a)
 
 ```
+Now use saveRDS() / readRDS() function
+
+```{r}
+saveRDS(arr_life, "Life_arrange.rds")
+b <- readRDS("Life_arrange.rds")
+
+# To visualize rds file
+knitr::kable(b) %>% 
+  kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
+
+# now we see the difference between original data and after writing into .rds file
+# Here, the saveRDS() function keeps the original data.
+str(arr_life)
+str(b)
+
+```
+
+Now use the dput()/ dget()
+```{r}
+# same as before, use the arr_life data frame
+dput(arr_life, "Life_arrange.R")
+c <- dget("Life_arrange.R")
+
+# To visualize the .R file
+knitr::kable(c) %>% 
+  kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
+
+# Here, same as the saveRDS() function, the dput() function also keeps the original data.
+str(arr_life)
+str(c)
+```
+
 
 Part 3: Visualization design
 -----------------------------
@@ -201,8 +247,104 @@ Requirements3
 Implementation3
 --------------
 ```{r}
+# Firstly, the original ggplot of gapminder of different continents showing lifeExp vs. gdpPercap
+p <- gapminder %>% 
+  filter(continent != "Oreania") 
+str(p)
+ggplot(p, aes(gdpPercap, lifeExp)) + 
+  geom_point()+
+  facet_wrap( ~ continent)
 
+# This is the original figure, now we add some labels, scales and colour scheme
+ggplot(p, aes(gdpPercap, lifeExp)) +
+  geom_point(aes(colour = pop), alpha = 0.5) +
+  scale_x_log10(labels = dollar_format()) +
+  scale_color_distiller(
+    trans = "log10",
+    breaks = 10^(1:10),
+    labels = comma_format(),
+    palette = "Blues"
+  )+
+  scale_y_continuous(breaks = 10 * (1:10))+
+  facet_wrap( ~ continent, scales = "free_y")+
+   theme_bw()+
+  theme(
+    axis.text = element_text(size = 10),
+    strip.background = element_rect(fill = "light grey"),
+    panel.background = element_rect(fill = "white")
+        )+
+  ggtitle("Life expectation VS. GDP")
+  
+# Another example
+# Orignal figure
+gapminder %>% 
+  ggplot(aes(gdpPercap, fill=continent))+
+  facet_wrap(~continent)+
+  geom_density()+xlab("GDPpercap")+ylab("Frequency")+
+  ggtitle("GDP distribution of each continent")
+
+
+# After design
+gapminder %>% 
+  ggplot(aes(gdpPercap, fill=continent)) +
+  geom_density(aes(colour = pop), alpha = 0.2)+
+  scale_x_log10(labels = dollar_format()) +
+    scale_color_distiller(
+    trans = "log10",
+    breaks = 10^(1:10),
+    labels = comma_format(),
+    palette = "Blues"
+  ) +
+  facet_wrap( ~ continent)+
+  ggtitle("GDP distribution")+
+  theme_bw()+
+  theme(
+    axis.text = element_text(size = 10),
+    strip.background = element_rect(fill = "light blue"),
+    panel.background = element_rect(fill = "white")
+        )
+  
 ```
+For the implementation of ploty() function
+```{r}
+library(plotly)
+(h <- gapminder %>% 
+  filter(continent != "Oceania") %>% 
+  ggplot(aes(gdpPercap, lifeExp))+
+  geom_point(aes(colour = pop), alpha = 0.5) +
+  scale_x_log10(labels = dollar_format()) +
+  scale_color_distiller(
+    trans = "log10",
+    breaks = 10^(1:10),
+    labels = comma_format(),
+    palette = "Blues"
+  )+
+  scale_y_continuous(breaks = 10 * (1:10))+
+  facet_wrap( ~ continent, scales = "free_y")+
+   theme_bw()+
+  theme(
+    axis.text = element_text(size = 10),
+    strip.background = element_rect(fill = "light grey"),
+    panel.background = element_rect(fill = "white")
+        )+
+  ggtitle("Life expectation VS. GDP"))
+  
+ggplotly(h)
+
+plot_ly(gapminder,
+        x = ~gdpPercap, 
+        y = ~lifeExp, 
+        z = ~pop,
+        type = "scatter3d",
+        mode = "markers",
+        opacity = 0.2) %>% 
+  layout(
+    scene = list(
+      xaxis = list(title = "gdpPercap"),
+      yaxis = list(title = "LifeExp"),
+      zaxis = list(title = "Population")))
+```
+
 
 Part 4: Writing figures to file
 -------------------------------
@@ -217,8 +359,60 @@ Requirements4
  
 Implementation4
 --------------
+Use ggsave() to save above figures separately in .png and .pdf format
 ```{r}
+figure1 <-gapminder %>% 
+  ggplot(aes(gdpPercap, fill=continent)) +
+  geom_density(aes(colour = pop), alpha = 0.2)+
+  scale_x_log10(labels = dollar_format()) +
+    scale_color_distiller(
+    trans = "log10",
+    breaks = 10^(1:10),
+    labels = comma_format(),
+    palette = "Blues"
+  ) +
+  facet_wrap( ~ continent)+
+  ggtitle("GDP distribution")+
+  theme_bw()+
+  theme(
+    axis.text = element_text(size = 10),
+    strip.background = element_rect(fill = "light blue"),
+    panel.background = element_rect(fill = "white")
+        )
+  
+ggsave("figure1.png",
+       plot = figure1,
+       width = 15,
+       height = 10,
+       scale = 1.5)
 
+figure2 <- gapminder %>% 
+  filter(continent != "Oreania") %>% 
+  ggplot(aes(gdpPercap, lifeExp)) +
+  geom_point(aes(colour = pop), alpha = 0.5) +
+  scale_x_log10(labels = dollar_format()) +
+  scale_color_distiller(
+    trans = "log10",
+    breaks = 10^(1:10),
+    labels = comma_format(),
+    palette = "Blues"
+  )+
+  scale_y_continuous(breaks = 10 * (1:10))+
+  facet_wrap( ~ continent, scales = "free_y")+
+   theme_bw()+
+  theme(
+    axis.text = element_text(size = 10),
+    strip.background = element_rect(fill = "light grey"),
+    panel.background = element_rect(fill = "white")
+        )+
+  ggtitle("Life expectation VS. GDP")
+
+
+ggsave("figure2.pdf",
+       plot = figure2,
+       width = 15,
+       height = 10,
+       scale = 1.5)
 ```
 
 
