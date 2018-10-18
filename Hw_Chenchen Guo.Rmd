@@ -102,12 +102,16 @@ knitr::kable(fct_count(con_drop$continent), col.names = c('Continent', 'Number o
 2. Reorder levels 
 Here I will use the lifeexpectancy as a standard to level different continents.
 For example, use the variance of lifeExp 
+and Form a table with variance and continent
+
+Use summarize function to calculate all variance of lifeExp for all continents
+
+
 ```{r}
-#Use summarize function to calculate all variance of lifeExp for all continents
 var_life <- gapminder %>% 
   group_by(continent) %>% 
   summarise(variance = var(lifeExp))
-#Form a table with variance and continent
+
 knitr::kable(var_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 
@@ -115,54 +119,79 @@ knitr::kable(var_life, col.names = c('Continent', 'Variance of life expectancy')
 
 ```
 
+Visulization
+ In order to evidently showing the number, add a scales for Y-axis
+
 ```{r}
-#Visulization
+
 lifescales <- ggplot(var_life, aes(continent, variance))+
                geom_col()+
                ggtitle("Variance of life expectancy of continent")
-# In order to evidently showing the number, add a scales for Y-axis
 lifescales +
   scale_y_continuous(breaks = 1: 20 * 10)
+
+
 ```
 
 
 Then use fct_reorder() to order continents by variance of lifeExp
+Visualization , this time the order of data changed from the above
+
 ```{r}
 life_ord <- mutate(var_life, continent = fct_reorder(continent, variance))
-# Visualization , this time the order of data changed from the above
+
 ggplot(life_ord, aes(variance, continent))+
   geom_point()+
   scale_x_continuous(breaks = 1:15*10)+
   ggtitle("Variance of life expectancy of continent")
+
 ```
 
 Now show the difference between fct_reorder() and arrange()
+for fct_reorder list the table:
 
 ```{r}
-# for fct_reorder list the table:
+
 knitr::kable(life_ord, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 
 ```
+
 The data sequence in table are still the same, now use arrange()
+
 ```{r}
 arr_life <- var_life %>% 
   arrange(variance)
 knitr::kable(arr_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 
-# Now the table of continent vs. var of life  changed order
+
+```
+
+ Now the table of continent vs. var of life  changed order
+ Here the arrange function only alter the sequence in table but not in figure
+
+
+```{r}
+
 ggplot(arr_life, aes(variance, continent))+
   geom_point()
-#Here the arrange function only alter the sequence in table but not in figure
 ```
+
 
 Hence, if we want to both alter the sequence on figure and table
 ```{r}
 final_life <- var_life %>% 
   mutate(continent = fct_reorder(continent, variance)) %>% 
   arrange(variance)
-# visulization of both table and figure:
+
+```
+
+ visulization of both table and figure:
+ Now both table and figure's order in terms of variance of lifeexp are increasing
+
+
+```{r}
 knitr::kable(final_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 
@@ -171,9 +200,7 @@ ggplot(final_life, aes(variance, continent))+
   scale_x_continuous(breaks = 1:15*10)+
   ggtitle("Variance of life expectancy of continent")
 
-#Now both table and figure's order in terms of variance of lifeexp are increasing
 ```
-
 
 
 

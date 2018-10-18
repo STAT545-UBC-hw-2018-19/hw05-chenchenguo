@@ -208,14 +208,15 @@ Europe
 </tr>
 </tbody>
 </table>
-1.  Reorder levels Here I will use the lifeexpectancy as a standard to level different continents. For example, use the variance of lifeExp
+1.  Reorder levels Here I will use the lifeexpectancy as a standard to level different continents. For example, use the variance of lifeExp and Form a table with variance and continent
+
+Use summarize function to calculate all variance of lifeExp for all continents
 
 ``` r
-#Use summarize function to calculate all variance of lifeExp for all continents
 var_life <- gapminder %>% 
   group_by(continent) %>% 
   summarise(variance = var(lifeExp))
-#Form a table with variance and continent
+
 knitr::kable(var_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 ```
@@ -274,23 +275,23 @@ Oceania
 </tr>
 </tbody>
 </table>
+Visulization In order to evidently showing the number, add a scales for Y-axis
+
 ``` r
-#Visulization
 lifescales <- ggplot(var_life, aes(continent, variance))+
                geom_col()+
                ggtitle("Variance of life expectancy of continent")
-# In order to evidently showing the number, add a scales for Y-axis
 lifescales +
   scale_y_continuous(breaks = 1: 20 * 10)
 ```
 
 ![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
-Then use fct\_reorder() to order continents by variance of lifeExp
+Then use fct\_reorder() to order continents by variance of lifeExp Visualization , this time the order of data changed from the above
 
 ``` r
 life_ord <- mutate(var_life, continent = fct_reorder(continent, variance))
-# Visualization , this time the order of data changed from the above
+
 ggplot(life_ord, aes(variance, continent))+
   geom_point()+
   scale_x_continuous(breaks = 1:15*10)+
@@ -299,10 +300,9 @@ ggplot(life_ord, aes(variance, continent))+
 
 ![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-Now show the difference between fct\_reorder() and arrange()
+Now show the difference between fct\_reorder() and arrange() for fct\_reorder list the table:
 
 ``` r
-# for fct_reorder list the table:
 knitr::kable(life_ord, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 ```
@@ -424,17 +424,14 @@ Asia
 </tr>
 </tbody>
 </table>
+Now the table of continent vs. var of life changed order Here the arrange function only alter the sequence in table but not in figure
+
 ``` r
-# Now the table of continent vs. var of life  changed order
 ggplot(arr_life, aes(variance, continent))+
   geom_point()
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-8-1.png)
-
-``` r
-#Here the arrange function only alter the sequence in table but not in figure
-```
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 Hence, if we want to both alter the sequence on figure and table
 
@@ -442,7 +439,11 @@ Hence, if we want to both alter the sequence on figure and table
 final_life <- var_life %>% 
   mutate(continent = fct_reorder(continent, variance)) %>% 
   arrange(variance)
-# visulization of both table and figure:
+```
+
+visulization of both table and figure: Now both table and figure's order in terms of variance of lifeexp are increasing
+
+``` r
 knitr::kable(final_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 ```
@@ -508,11 +509,7 @@ ggplot(final_life, aes(variance, continent))+
   ggtitle("Variance of life expectancy of continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-9-1.png)
-
-``` r
-#Now both table and figure's order in terms of variance of lifeexp are increasing
-```
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 Part 2: File I/O
 ----------------
@@ -834,7 +831,7 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
   facet_wrap( ~ continent)
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-15-1.png)
 
 ``` r
 # This is the original figure, now we add some labels, scales and colour scheme
@@ -858,7 +855,7 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
   ggtitle("Life expectation VS. GDP")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-13-2.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-15-2.png)
 
 ``` r
 # Another example
@@ -870,7 +867,7 @@ gapminder %>%
   ggtitle("GDP distribution of each continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-14-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-16-1.png)
 
 ``` r
 # After design
@@ -894,7 +891,7 @@ gapminder %>%
         )
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-14-2.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-16-2.png)
 
 For the implementation of ploty() function
 
