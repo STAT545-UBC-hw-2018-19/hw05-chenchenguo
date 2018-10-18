@@ -284,7 +284,7 @@ lifescales +
   scale_y_continuous(breaks = 1: 20 * 10)
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 Then use fct\_reorder() to order continents by variance of lifeExp
 
@@ -297,7 +297,7 @@ ggplot(life_ord, aes(variance, continent))+
   ggtitle("Variance of life expectancy of continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 Now show the difference between fct\_reorder() and arrange()
 
@@ -430,7 +430,7 @@ ggplot(arr_life, aes(variance, continent))+
   geom_point()
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 ``` r
 #Here the arrange function only alter the sequence in table but not in figure
@@ -508,7 +508,7 @@ ggplot(final_life, aes(variance, continent))+
   ggtitle("Variance of life expectancy of continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ``` r
 #Now both table and figure's order in terms of variance of lifeexp are increasing
@@ -834,7 +834,7 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
   facet_wrap( ~ continent)
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 ``` r
 # This is the original figure, now we add some labels, scales and colour scheme
@@ -858,7 +858,7 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
   ggtitle("Life expectation VS. GDP")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-12-2.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-13-2.png)
 
 ``` r
 # Another example
@@ -870,7 +870,7 @@ gapminder %>%
   ggtitle("GDP distribution of each continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-12-3.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-14-1.png)
 
 ``` r
 # After design
@@ -894,98 +894,78 @@ gapminder %>%
         )
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-12-4.png) For the implementation of ploty() function
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-14-2.png)
+
+For the implementation of ploty() function
 
 ``` r
-library(plotly)
-(h <- gapminder %>% 
-  filter(continent != "Oceania") %>% 
-  ggplot(aes(gdpPercap, lifeExp))+
-  geom_point(aes(colour = pop), alpha = 0.5) +
-  scale_x_log10(labels = dollar_format()) +
-  scale_color_distiller(
-    trans = "log10",
-    breaks = 10^(1:10),
-    labels = comma_format(),
-    palette = "Blues"
-  )+
-  scale_y_continuous(breaks = 10 * (1:10))+
-  facet_wrap( ~ continent, scales = "free_y")+
-   theme_bw()+
-  theme(
-    axis.text = element_text(size = 10),
-    strip.background = element_rect(fill = "light grey"),
-    panel.background = element_rect(fill = "white")
-        )+
-  ggtitle("Life expectation VS. GDP"))
+# library(plotly)
+# (h <- gapminder %>% 
+#   filter(continent != "Oceania") %>% 
+#   ggplot(aes(gdpPercap, lifeExp))+
+#   geom_point(aes(colour = pop), alpha = 0.5) +
+#   scale_x_log10(labels = dollar_format()) +
+#   scale_color_distiller(
+#     trans = "log10",
+#     breaks = 10^(1:10),
+#     labels = comma_format(),
+#     palette = "Blues"
+#   )+
+#   scale_y_continuous(breaks = 10 * (1:10))+
+#   facet_wrap( ~ continent, scales = "free_y")+
+#    theme_bw()+
+#   theme(
+#     axis.text = element_text(size = 10),
+#     strip.background = element_rect(fill = "light grey"),
+#     panel.background = element_rect(fill = "white")
+#         )+
+#   ggtitle("Life expectation VS. GDP"))
+#   
+# n<- ggplotly(h)
+# api_create(n, filename = "r-docs-ggplotly")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-13-1.png)
-
-``` r
-n<- ggplotly(h)
-api_create(n, filename = "r-docs-ggplotly")
-```
-
-    ## Found a grid already named: 'r-docs-ggplotly Grid'. Since fileopt='overwrite', I'll try to update it
-
-    ## Found a plot already named: 'r-docs-ggplotly'. Since fileopt='overwrite', I'll try to update it
-
-<iframe src="https://plot.ly/~GChenchen/3.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
-</iframe>
 [Ggplotly](https://plot.ly/~GChenchen/5/#/)
 
 ``` r
-m<- plot_ly(gapminder,
-        x = ~gdpPercap, 
-        y = ~lifeExp, 
-        z = ~pop,
-        type = "scatter3d",
-        mode = "markers",
-        opacity = 0.2) %>% 
-  layout(
-    scene = list(
-      xaxis = list(title = "gdpPercap"),
-      yaxis = list(title = "LifeExp"),
-      zaxis = list(title = "Population")))
-
-api_create(m, filename = "r-docs-plotly")
+# m<- plot_ly(gapminder,
+#         x = ~gdpPercap, 
+#         y = ~lifeExp, 
+#         z = ~pop,
+#         type = "scatter3d",
+#         mode = "markers",
+#         opacity = 0.2) %>% 
+#   layout(
+#     scene = list(
+#       xaxis = list(title = "gdpPercap"),
+#       yaxis = list(title = "LifeExp"),
+#       zaxis = list(title = "Population")))
+# 
+# api_create(m, filename = "r-docs-plotly")
 ```
 
-    ## Found a grid already named: 'r-docs-plotly Grid'. Since fileopt='overwrite', I'll try to update it
-
-    ## Found a plot already named: 'r-docs-plotly'. Since fileopt='overwrite', I'll try to update it
-
-<iframe src="https://plot.ly/~GChenchen/5.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
-</iframe>
 [plotly\_3D1](https://plot.ly/~GChenchen/3/#/)
 
 3D scattering
 
 ``` r
-o<-plot_ly(gapminder, 
-        x = ~gdpPercap, 
-        y = ~year, 
-        z = ~pop,
-        type = "scatter3d",
-        mode = "markers",
-        opacity = 0.2) %>% 
-  layout(xaxis = list(type = "log"),
-          scene = list(
-      xaxis = list(title = "gdpPercap"),
-      yaxis = list(title = "Year"),
-      zaxis = list(title = "Population")
-         ))
-
-api_create(o, filename = "r-docs-plotly 3d2")
+# o<-plot_ly(gapminder, 
+#         x = ~gdpPercap, 
+#         y = ~year, 
+#         z = ~pop,
+#         type = "scatter3d",
+#         mode = "markers",
+#         opacity = 0.2) %>% 
+#   layout(xaxis = list(type = "log"),
+#           scene = list(
+#       xaxis = list(title = "gdpPercap"),
+#       yaxis = list(title = "Year"),
+#       zaxis = list(title = "Population")
+#          ))
+# 
+# api_create(o, filename = "r-docs-plotly 3d2")
 ```
 
-    ## Found a grid already named: 'r-docs-plotly 3d2 Grid'. Since fileopt='overwrite', I'll try to update it
-
-    ## Found a plot already named: 'r-docs-plotly 3d2'. Since fileopt='overwrite', I'll try to update it
-
-<iframe src="https://plot.ly/~GChenchen/7.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
-</iframe>
 [Plotly\_3D2](https://plot.ly/~GChenchen/7/#/)
 
 Part 4: Writing figures to file

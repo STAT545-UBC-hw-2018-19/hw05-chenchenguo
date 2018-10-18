@@ -111,6 +111,11 @@ var_life <- gapminder %>%
 knitr::kable(var_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 
+
+
+```
+
+```{r}
 #Visulization
 lifescales <- ggplot(var_life, aes(continent, variance))+
                geom_col()+
@@ -118,8 +123,8 @@ lifescales <- ggplot(var_life, aes(continent, variance))+
 # In order to evidently showing the number, add a scales for Y-axis
 lifescales +
   scale_y_continuous(breaks = 1: 20 * 10)
-
 ```
+
 
 Then use fct_reorder() to order continents by variance of lifeExp
 ```{r}
@@ -275,6 +280,11 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
         )+
   ggtitle("Life expectation VS. GDP")
   
+
+  
+```
+
+```{r}
 # Another example
 # Orignal figure
 gapminder %>% 
@@ -303,73 +313,78 @@ gapminder %>%
     strip.background = element_rect(fill = "light blue"),
     panel.background = element_rect(fill = "white")
         )
-  
 ```
+
+
 For the implementation of ploty() function
-```{r}
-library(plotly)
-(h <- gapminder %>% 
-  filter(continent != "Oceania") %>% 
-  ggplot(aes(gdpPercap, lifeExp))+
-  geom_point(aes(colour = pop), alpha = 0.5) +
-  scale_x_log10(labels = dollar_format()) +
-  scale_color_distiller(
-    trans = "log10",
-    breaks = 10^(1:10),
-    labels = comma_format(),
-    palette = "Blues"
-  )+
-  scale_y_continuous(breaks = 10 * (1:10))+
-  facet_wrap( ~ continent, scales = "free_y")+
-   theme_bw()+
-  theme(
-    axis.text = element_text(size = 10),
-    strip.background = element_rect(fill = "light grey"),
-    panel.background = element_rect(fill = "white")
-        )+
-  ggtitle("Life expectation VS. GDP"))
-  
-n<- ggplotly(h)
-api_create(n, filename = "r-docs-ggplotly")
+
+```{r, warning=FALSE}
+# library(plotly)
+# (h <- gapminder %>% 
+#   filter(continent != "Oceania") %>% 
+#   ggplot(aes(gdpPercap, lifeExp))+
+#   geom_point(aes(colour = pop), alpha = 0.5) +
+#   scale_x_log10(labels = dollar_format()) +
+#   scale_color_distiller(
+#     trans = "log10",
+#     breaks = 10^(1:10),
+#     labels = comma_format(),
+#     palette = "Blues"
+#   )+
+#   scale_y_continuous(breaks = 10 * (1:10))+
+#   facet_wrap( ~ continent, scales = "free_y")+
+#    theme_bw()+
+#   theme(
+#     axis.text = element_text(size = 10),
+#     strip.background = element_rect(fill = "light grey"),
+#     panel.background = element_rect(fill = "white")
+#         )+
+#   ggtitle("Life expectation VS. GDP"))
+#   
+# n<- ggplotly(h)
+# api_create(n, filename = "r-docs-ggplotly")
 
 
 ```
+
 [Ggplotly](https://plot.ly/~GChenchen/5/#/)
-```{r}
-m<- plot_ly(gapminder,
-        x = ~gdpPercap, 
-        y = ~lifeExp, 
-        z = ~pop,
-        type = "scatter3d",
-        mode = "markers",
-        opacity = 0.2) %>% 
-  layout(
-    scene = list(
-      xaxis = list(title = "gdpPercap"),
-      yaxis = list(title = "LifeExp"),
-      zaxis = list(title = "Population")))
 
-api_create(m, filename = "r-docs-plotly")
+```{r, warning=FALSE}
+# m<- plot_ly(gapminder,
+#         x = ~gdpPercap, 
+#         y = ~lifeExp, 
+#         z = ~pop,
+#         type = "scatter3d",
+#         mode = "markers",
+#         opacity = 0.2) %>% 
+#   layout(
+#     scene = list(
+#       xaxis = list(title = "gdpPercap"),
+#       yaxis = list(title = "LifeExp"),
+#       zaxis = list(title = "Population")))
+# 
+# api_create(m, filename = "r-docs-plotly")
 ```
+
 [plotly_3D1](https://plot.ly/~GChenchen/3/#/)
 
 3D scattering
-```{r}
-o<-plot_ly(gapminder, 
-        x = ~gdpPercap, 
-        y = ~year, 
-        z = ~pop,
-        type = "scatter3d",
-        mode = "markers",
-        opacity = 0.2) %>% 
-  layout(xaxis = list(type = "log"),
-          scene = list(
-      xaxis = list(title = "gdpPercap"),
-      yaxis = list(title = "Year"),
-      zaxis = list(title = "Population")
-         ))
-
-api_create(o, filename = "r-docs-plotly 3d2")
+```{r, warning=FALSE}
+# o<-plot_ly(gapminder, 
+#         x = ~gdpPercap, 
+#         y = ~year, 
+#         z = ~pop,
+#         type = "scatter3d",
+#         mode = "markers",
+#         opacity = 0.2) %>% 
+#   layout(xaxis = list(type = "log"),
+#           scene = list(
+#       xaxis = list(title = "gdpPercap"),
+#       yaxis = list(title = "Year"),
+#       zaxis = list(title = "Population")
+#          ))
+# 
+# api_create(o, filename = "r-docs-plotly 3d2")
 ```
 
 [Plotly_3D2](https://plot.ly/~GChenchen/7/#/)
