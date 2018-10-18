@@ -30,7 +30,7 @@ October 14, 2018
 
     -[Implementation4](#implementation4)
 
--   [Part5: Furthermore](#part-5-furthermore)
+-   [Part5: But I want to do more](#part-5-but-i-want-to-do-more)
 
 Introduction
 ------------
@@ -1037,8 +1037,8 @@ ggsave("figure2.pdf",
 
 The save files will be uploaded into github
 
-Part5: Furthermore
-------------------
+Part5: But I want to do more
+----------------------------
 
 Make a new dataframe called sport\_country
 
