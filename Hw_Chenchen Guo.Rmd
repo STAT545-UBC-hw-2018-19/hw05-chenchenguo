@@ -329,9 +329,14 @@ library(plotly)
         )+
   ggtitle("Life expectation VS. GDP"))
   
-ggplotly(h)
+n<- ggplotly(h)
+api_create(n, filename = "r-docs-ggplotly")
 
-plot_ly(gapminder,
+
+```
+[Ggplotly](https://plot.ly/~GChenchen/5/#/)
+```{r}
+m<- plot_ly(gapminder,
         x = ~gdpPercap, 
         y = ~lifeExp, 
         z = ~pop,
@@ -343,8 +348,31 @@ plot_ly(gapminder,
       xaxis = list(title = "gdpPercap"),
       yaxis = list(title = "LifeExp"),
       zaxis = list(title = "Population")))
+
+api_create(m, filename = "r-docs-plotly")
+```
+[plotly_3D1](https://plot.ly/~GChenchen/3/#/)
+
+3D scattering
+```{r}
+o<-plot_ly(gapminder, 
+        x = ~gdpPercap, 
+        y = ~year, 
+        z = ~pop,
+        type = "scatter3d",
+        mode = "markers",
+        opacity = 0.2) %>% 
+  layout(xaxis = list(type = "log"),
+          scene = list(
+      xaxis = list(title = "gdpPercap"),
+      yaxis = list(title = "Year"),
+      zaxis = list(title = "Population")
+         ))
+
+api_create(o, filename = "r-docs-plotly 3d2")
 ```
 
+[Plotly_3D2](https://plot.ly/~GChenchen/7/#/)
 
 Part 4: Writing figures to file
 -------------------------------
