@@ -30,6 +30,8 @@ October 14, 2018
 
     -[Implementation4](#implementation4)
 
+-   [Part5: Furthermore](#part-5-furthermore)
+
 Introduction
 ------------
 
@@ -1032,3 +1034,257 @@ ggsave("figure2.pdf",
        height = 10,
        scale = 1.5)
 ```
+
+The save files will be uploaded into github
+
+Part5: Furthermore
+------------------
+
+Make a new dataframe called sport\_country
+
+``` r
+sport_country <- data.frame(
+  country = c("China", "Spain", "Japan", "Malaysia", "Canada", "United States"),
+  sport = c("PingPong", "Soccer", "Baseball", "Badminton", "Hockey", "Basketball")
+)
+country_gap <- gapminder %>% 
+  filter(country %in% c("China", "Spain", "Japan", "Malaysia", "Canada", "United States")) %>% 
+  droplevels()
+
+sport_gap <- left_join(sport_country, country_gap)
+```
+
+    ## Joining, by = "country"
+
+Now we can see the new data frame contains both from gapminder and sport\_Country
+
+``` r
+str(sport_gap)
+```
+
+    ## 'data.frame':    72 obs. of  7 variables:
+    ##  $ country  : Factor w/ 6 levels "Canada","China",..: 2 2 2 2 2 2 2 2 2 2 ...
+    ##  $ sport    : Factor w/ 6 levels "Badminton","Baseball",..: 5 5 5 5 5 5 5 5 5 5 ...
+    ##  $ continent: Factor w/ 3 levels "Americas","Asia",..: 2 2 2 2 2 2 2 2 2 2 ...
+    ##  $ year     : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+    ##  $ lifeExp  : num  44 50.5 44.5 58.4 63.1 ...
+    ##  $ pop      : int  556263527 637408000 665770000 754550000 862030000 943455000 1000281000 1084035000 1164970000 1230075000 ...
+    ##  $ gdpPercap: num  400 576 488 613 677 ...
+
+``` r
+sp<- sport_gap%>% 
+  summarize(
+    nrow = nrow(sport_gap),
+    nlevels = nlevels(sport_gap$country),
+    nlevels2 = nlevels(sport_gap$sport))
+
+
+knitr::kable(sp, col.names = c("Row", "Country", "Sport")) %>% 
+    kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
+```
+
+<table class="table table-bordered" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Row
+</th>
+<th style="text-align:right;">
+Country
+</th>
+<th style="text-align:right;">
+Sport
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+</table>
+To show combined data frame of year 2007
+
+``` r
+hp <- sport_gap %>% 
+  filter(year == 2007)
+
+knitr::kable(hp) %>% 
+   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F, position = "left")
+```
+
+<table class="table table-bordered" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+country
+</th>
+<th style="text-align:left;">
+sport
+</th>
+<th style="text-align:left;">
+continent
+</th>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:right;">
+lifeExp
+</th>
+<th style="text-align:right;">
+pop
+</th>
+<th style="text-align:right;">
+gdpPercap
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+China
+</td>
+<td style="text-align:left;">
+PingPong
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;">
+72.961
+</td>
+<td style="text-align:right;">
+1318683096
+</td>
+<td style="text-align:right;">
+4959.115
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Spain
+</td>
+<td style="text-align:left;">
+Soccer
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;">
+80.941
+</td>
+<td style="text-align:right;">
+40448191
+</td>
+<td style="text-align:right;">
+28821.064
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Baseball
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;">
+82.603
+</td>
+<td style="text-align:right;">
+127467972
+</td>
+<td style="text-align:right;">
+31656.068
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Malaysia
+</td>
+<td style="text-align:left;">
+Badminton
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;">
+74.241
+</td>
+<td style="text-align:right;">
+24821286
+</td>
+<td style="text-align:right;">
+12451.656
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canada
+</td>
+<td style="text-align:left;">
+Hockey
+</td>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;">
+80.653
+</td>
+<td style="text-align:right;">
+33390141
+</td>
+<td style="text-align:right;">
+36319.235
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+United States
+</td>
+<td style="text-align:left;">
+Basketball
+</td>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;">
+78.242
+</td>
+<td style="text-align:right;">
+301139947
+</td>
+<td style="text-align:right;">
+42951.653
+</td>
+</tr>
+</tbody>
+</table>

@@ -31,6 +31,9 @@ always_allow_html: yes
     -[Requirements4](#requirements4)
     
     -[Implementation4](#implementation4)
+    
+-   [Part5: Furthermore](#part-5-furthermore)
+    
 
 Introduction
 ------------
@@ -487,8 +490,59 @@ ggsave("figure2.pdf",
        scale = 1.5)
 ```
 
+The save files will be uploaded into github
 
 
+
+Part5: Furthermore
+------------------
+
+
+Make a new dataframe called sport_country
+
+```{r}
+sport_country <- data.frame(
+  country = c("China", "Spain", "Japan", "Malaysia", "Canada", "United States"),
+  sport = c("PingPong", "Soccer", "Baseball", "Badminton", "Hockey", "Basketball")
+)
+country_gap <- gapminder %>% 
+  filter(country %in% c("China", "Spain", "Japan", "Malaysia", "Canada", "United States")) %>% 
+  droplevels()
+
+sport_gap <- left_join(sport_country, country_gap)
+
+
+```
+
+Now we can see the new data frame contains both from gapminder and sport_Country
+
+
+```{r}
+
+str(sport_gap)
+
+sp<- sport_gap%>% 
+  summarize(
+    nrow = nrow(sport_gap),
+    nlevels = nlevels(sport_gap$country),
+    nlevels2 = nlevels(sport_gap$sport))
+
+
+knitr::kable(sp, col.names = c("Row", "Country", "Sport")) %>% 
+    kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
+    
+
+```
+
+To show combined data frame of year 2007
+
+```{r}
+hp <- sport_gap %>% 
+  filter(year == 2007)
+
+knitr::kable(hp) %>% 
+   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F, position = "left")
+```
 
 
 
