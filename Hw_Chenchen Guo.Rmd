@@ -195,13 +195,15 @@ final_life <- var_life %>%
 knitr::kable(final_life, col.names = c('Continent', 'Variance of life expectancy')) %>% 
   kable_styling(bootstrap_options = "bordered", latex_options = "basic", full_width = F)
 
+```
+
+
+```{r}
 ggplot(final_life, aes(variance, continent))+
   geom_point()+
   scale_x_continuous(breaks = 1:15*10)+
   ggtitle("Variance of life expectancy of continent")
-
 ```
-
 
 
 
