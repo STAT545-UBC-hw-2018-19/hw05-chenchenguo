@@ -509,7 +509,7 @@ ggplot(final_life, aes(variance, continent))+
   ggtitle("Variance of life expectancy of continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 Part 2: File I/O
 ----------------
@@ -831,7 +831,7 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
   facet_wrap( ~ continent)
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-15-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-16-1.png)
 
 ``` r
 # This is the original figure, now we add some labels, scales and colour scheme
@@ -855,7 +855,7 @@ ggplot(p, aes(gdpPercap, lifeExp)) +
   ggtitle("Life expectation VS. GDP")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-15-2.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-16-2.png)
 
 ``` r
 # Another example
@@ -867,7 +867,7 @@ gapminder %>%
   ggtitle("GDP distribution of each continent")
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-16-1.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 ``` r
 # After design
@@ -891,7 +891,7 @@ gapminder %>%
         )
 ```
 
-![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-16-2.png)
+![](Hw_Chenchen_Guo_files/figure-markdown_github/unnamed-chunk-17-2.png)
 
 For the implementation of ploty() function
 
