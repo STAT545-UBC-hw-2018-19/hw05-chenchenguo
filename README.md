@@ -17,5 +17,5 @@ Rmarkdown source code | \[[Rmd](https://github.com/STAT545-UBC-students/hw05-che
 Markdown document | \[[md](https://github.com/STAT545-UBC-students/hw05-chenchenguo/blob/master/Hw_Chenchen_Guo.md)\]
 
 One problem is the ploy_ly() and ggplotly() function can not be fully displayed in markdown file. 
-You can check them in .Rmd file.
-Thank you
+You can check them in .Rmd file. And I inserted a catalog in md file. Once you scroll down to ggplotly, you can scroll back to catalog and click next part.
+Thank you.
